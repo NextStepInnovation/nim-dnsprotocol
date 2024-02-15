@@ -315,7 +315,7 @@ method rdataToBinMsg*(rdata: RDataURI, rr: ResourceRecord, ss: StringStream,
 
   writeSomeIntBE(ss, rdata.priority)
   writeSomeIntBE(ss, rdata.weight)
-  URIToBinMsg*(rdata.target, ss, dictionary)
+  URIToBinMsg(rdata.target, ss, dictionary)
 
 method rdataToBinMsg*(rdata: RDataOPT, rr: ResourceRecord, ss: StringStream,
                       dictionary: var Table[string, uint16]) =
