@@ -76,6 +76,15 @@ type
 
   # END - RDatas specified in RFC-1886
 
+  # RDatas specified in RFC-7553
+
+  RDataURI* = ref object of RData
+    priority*: uint16 ## The priority of this target host.  A client MUST attempt to contact the URI with the lowest-numbered priority it can reach; URIs with the same priority SHOULD be selected according to probabilities defined by the weight field.
+    weight*: uint16 ## A server selection mechanism.  The weight field specifies a relative weight for entries with the same priority. Larger weights SHOULD be given a proportionately higher probability of being selected.  The range of this number is 0-65535.
+    target*: string ## This is the URI of the target, enclosed in double-quote characters ('"'), where the URI is as specified in RFC 3986 [RFC3986].  Resolution of the URI is according to the definitions for the Scheme of the URI.
+
+  # END - RDatas specified in RFC-7553
+
   # RDatas specified in RFC-2782 (https://www.rfc-editor.org/rfc/rfc2782)
 
   RDataSRV* = ref object of RData
@@ -118,4 +127,4 @@ type
   # All RDatas
   RDatas* = RDataA|RDataNS|RDataMD|RDataMF|RDataCNAME|RDataSOA|RDataMB|RDataMG|
             RDataMR|RDataNULL|RDataWKS|RDataPTR|RDataHINFO|RDataMINFO|RDataMX|
-            RDataTXT|RDataAAAA|RDataCAA|RDataSRV|RDataOPT
+            RDataTXT|RDataURI|RDataAAAA|RDataCAA|RDataSRV|RDataOPT

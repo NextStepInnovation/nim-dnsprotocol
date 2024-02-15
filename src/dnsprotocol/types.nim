@@ -34,6 +34,7 @@ type
     AAAA = 28 ## Host IPv6 address - RFC-1886
     SRV = 33 ## Location of services - RFC-2782
     OPT = 41 ## OPT pseudo-RR (meta-RR) - RFC-6891
+    URI = 256 ## A URI record - RFC-7553
     CAA = 257 ## Certification Authority Authorization - RFC-8659
 
   QType* {.pure, size: 2.} = enum ## Appear in the question part of a query.
@@ -61,6 +62,7 @@ type
     MAILB = 253 ## A request for mailbox-related records (MB, MG or MR)
     MAILA = 254 ## A request for mail agent RRs (Obsolete - see MX)
     ANY = 255 ## A request for all records
+    URI = 256 ## A URI record - RFC-7553
     CAA = 257 ## Certification Authority Restriction - RFC-8659
 
   Class* {.pure, size: 2.} = enum ## Appear in resource records.

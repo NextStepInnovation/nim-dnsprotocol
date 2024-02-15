@@ -24,6 +24,7 @@ proc newRData*(rr: var ResourceRecord) =
     of Type.MINFO: rr.rdata = new(RDataMINFO)
     of Type.MX: rr.rdata = new(RDataMX)
     of Type.TXT: rr.rdata = new(RDataTXT)
+    of Type.URI: rr.rdata = new(RDataURI)
     of Type.AAAA: rr.rdata = new(RDataAAAA)
     of Type.CAA: rr.rdata = new(RDataCAA)
     of Type.SRV: rr.rdata = new(RDataSRV)
@@ -147,6 +148,11 @@ method parseRData*(rdata: RDataSRV, rr: ResourceRecord, ss: StringStream) =
   rdata.priority = readUInt16E(ss)
   rdata.weight = readUInt16E(ss)
   rdata.port = readUInt16E(ss)
+  parseDomainName(rdata.target, ss)
+
+method parseRData*(rdata: RDataURI, rr: ResourceRecord, ss: StringStream) =
+  rdata.priority = readUInt16E(ss)
+  rdata.weight = readUInt16E(ss)
   parseDomainName(rdata.target, ss)
 
 method parseRData*(rdata: RDataOPT, rr: ResourceRecord, ss: StringStream) =
@@ -301,6 +307,14 @@ method rdataToBinMsg*(rdata: RDataSRV, rr: ResourceRecord, ss: StringStream,
   writeSomeIntBE(ss, rdata.priority)
   writeSomeIntBE(ss, rdata.weight)
   writeSomeIntBE(ss, rdata.port)
+  domainNameToBinMsg(rdata.target, ss, dictionary)
+
+method rdataToBinMsg*(rdata: RDataURI, rr: ResourceRecord, ss: StringStream,
+                      dictionary: var Table[string, uint16]) =
+  assert(rr.`type` == Type.URI, "Record Data incompatible with type. Use `RDataURI` for `Type.URI`")
+
+  writeSomeIntBE(ss, rdata.priority)
+  writeSomeIntBE(ss, rdata.weight)
   domainNameToBinMsg(rdata.target, ss, dictionary)
 
 method rdataToBinMsg*(rdata: RDataOPT, rr: ResourceRecord, ss: StringStream,
